@@ -304,6 +304,7 @@
     }
 
     .countdown {
+      position: relative;
       display: grid;
       gap: 0.9rem;
       width: min(100%, 30rem);
@@ -314,6 +315,7 @@
         linear-gradient(180deg, rgba(255, 253, 250, 0.84), rgba(255, 248, 242, 0.7));
       border: 1px solid rgba(159, 100, 58, 0.08);
       box-shadow: 0 12px 26px rgba(191, 154, 122, 0.09);
+      overflow: hidden;
     }
 
     .countdown-head {
@@ -461,6 +463,16 @@
       border: 1px solid rgba(255, 255, 255, 0.72);
     }
 
+    .hero-card > *,
+    .details-card > *,
+    .gift-card > *,
+    .countdown > *,
+    .theme-song > *,
+    .info-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
     .hero-card {
       width: min(100%, 44rem);
       text-align: center;
@@ -478,6 +490,7 @@
         radial-gradient(circle at top left, rgba(233, 216, 188, 0.18), transparent 34%),
         radial-gradient(circle at bottom right, rgba(176, 201, 213, 0.12), transparent 24%);
       pointer-events: none;
+      z-index: 0;
     }
 
     .hero-card::after {
@@ -487,6 +500,79 @@
       border-radius: calc(var(--radius) - 10px);
       border: 1px solid rgba(159, 100, 58, 0.08);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-ornament {
+      position: absolute;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.14;
+      mix-blend-mode: multiply;
+      filter: saturate(0.92) brightness(1.02);
+      user-select: none;
+    }
+
+    .card-ornament img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .card-ornament--birds {
+      top: 1rem;
+      right: 1.25rem;
+      width: 4.5rem;
+      opacity: 0.2;
+    }
+
+    .card-ornament--sun {
+      top: -1rem;
+      left: -1rem;
+      width: 7rem;
+      opacity: 0.1;
+    }
+
+    .card-ornament--flower-blue {
+      right: 0.85rem;
+      bottom: 0.65rem;
+      width: 2.8rem;
+      opacity: 0.18;
+    }
+
+    .card-ornament--flower-caramel {
+      right: 1rem;
+      bottom: 0.7rem;
+      width: 2.5rem;
+      opacity: 0.16;
+    }
+
+    .card-ornament--rainbow {
+      left: -1rem;
+      bottom: -1.4rem;
+      width: 7.5rem;
+      opacity: 0.1;
+    }
+
+    .card-ornament--hill-gold {
+      right: -1.4rem;
+      bottom: -0.7rem;
+      width: 8rem;
+      opacity: 0.1;
+    }
+
+    .card-ornament--hill-blue {
+      right: -1rem;
+      top: -0.2rem;
+      width: 7rem;
+      opacity: 0.1;
+    }
+
+    .card-ornament--hill-peach {
+      left: -1rem;
+      bottom: -0.4rem;
+      width: 6rem;
+      opacity: 0.1;
     }
 
     .eyebrow {
@@ -675,6 +761,7 @@
     }
 
     .info-card {
+      position: relative;
       display: grid;
       gap: 0.85rem;
       align-content: start;
@@ -853,6 +940,20 @@
 
       .dress-chip {
         font-size: 0.72rem;
+      }
+
+      .card-ornament--sun {
+        width: 5rem;
+      }
+
+      .card-ornament--rainbow {
+        width: 5.8rem;
+      }
+
+      .card-ornament--hill-gold,
+      .card-ornament--hill-blue,
+      .card-ornament--hill-peach {
+        width: 5.8rem;
       }
 
       .countdown-grid {
@@ -1034,6 +1135,12 @@
     <main class="content">
       <section class="hero" aria-label="Convite principal">
         <div class="hero-card">
+          <span class="card-ornament card-ornament--sun" aria-hidden="true">
+            <img src="./assets/Recorte 7.jpg.png" alt="">
+          </span>
+          <span class="card-ornament card-ornament--birds" aria-hidden="true">
+            <img src="./assets/Recorte 8.jpg.png" alt="">
+          </span>
           <div class="eyebrow">Convite Especial</div>
           <h1>Chá Revelação</h1>
           <div class="hero-name">Baby Dutra</div>
@@ -1051,6 +1158,9 @@
             <em>Venha viver essa surpresa com a gente</em>
           </div>
           <section class="countdown" aria-labelledby="countdown-title">
+            <span class="card-ornament card-ornament--flower-blue" aria-hidden="true">
+              <img src="./assets/Recorte 1.jpg.png" alt="">
+            </span>
             <div class="countdown-head">
               <strong id="countdown-title">Contagem Regressiva</strong>
             </div>
@@ -1087,6 +1197,9 @@
             </div>
           </div>
           <div class="theme-song" aria-label="Música tema do convite">
+            <span class="card-ornament card-ornament--birds" aria-hidden="true">
+              <img src="./assets/Recorte 8.jpg.png" alt="">
+            </span>
             <span class="theme-song-tag">Música Tema</span>
             <h2 class="theme-song-title">Sweet Child O' Mine</h2>
             <p>
@@ -1101,6 +1214,12 @@
 
       <section class="details" aria-label="Informações do evento">
         <div class="details-card">
+          <span class="card-ornament card-ornament--hill-blue" aria-hidden="true">
+            <img src="./assets/Recorte 6.jpg.png" alt="">
+          </span>
+          <span class="card-ornament card-ornament--rainbow" aria-hidden="true">
+            <img src="./assets/Recorte 9.jpg.png" alt="">
+          </span>
           <div>
             <h2 class="section-title">Reserve esse momento para celebrar conosco</h2>
             <p class="section-copy">
@@ -1111,6 +1230,9 @@
 
           <div class="info-grid">
             <article class="info-card" id="localizacao">
+              <span class="card-ornament card-ornament--flower-caramel" aria-hidden="true">
+                <img src="./assets/Recorte 2.jpg.png" alt="">
+              </span>
               <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 57c8-13 18-21 18-31a18 18 0 1 0-36 0c0 10 10 18 18 31Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
                 <circle cx="32" cy="26" r="7.5" stroke="currentColor" stroke-width="2.2" />
@@ -1125,6 +1247,9 @@
             </article>
 
             <article class="info-card" id="confirmacao">
+              <span class="card-ornament card-ornament--flower-blue" aria-hidden="true">
+                <img src="./assets/Recorte 1.jpg.png" alt="">
+              </span>
               <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <circle cx="32" cy="32" r="23" stroke="currentColor" stroke-width="2.2" />
                 <path d="m21 32 8 8 15-16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -1143,11 +1268,17 @@
 
       <section class="gift" aria-label="Sugestão de presente">
         <div class="gift-card">
+          <span class="card-ornament card-ornament--hill-gold" aria-hidden="true">
+            <img src="./assets/Recorte 3.jpg.png" alt="">
+          </span>
+          <span class="card-ornament card-ornament--hill-peach" aria-hidden="true">
+            <img src="./assets/Recorte 4.jpg.png" alt="">
+          </span>
           <div class="eyebrow">Carinho em Forma de Presente</div>
           <h2 class="section-title">Sugestão de Presente</h2>
           <p>
             Se desejar nos presentear, fraldas e itens neutros serão muito bem-vindos
-            para preparar a chegada da nossa pequena com ainda mais carinho.
+            para preparar a chegada da nossa doce criança.
           </p>
           <div class="gift-highlight">Fraldas e itens neutros</div>
         </div>
