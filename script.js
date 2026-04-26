@@ -22,7 +22,7 @@
 
   const iconPlay  = "m8 5 11 7-11 7z";
   const iconPause = "M7 5h3v14H7zm7 0h3v14h-3z";
-  const revealDate = new Date("2026-05-09T16:30:00-03:00");
+  const revealDate = new Date("2026-05-16T16:30:00-03:00");
 
   /* ─────────────────────────────────
      AUDIO
