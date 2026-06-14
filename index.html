@@ -4,436 +4,326 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chá Revelação | Baby Dutra</title>
-  <meta name="description" content="Convite digital responsivo para o chá revelação da Baby Dutra.">
+  <title>Chá Revelação · Baby Contar</title>
+  <meta name="description" content="Convite em formato de livro para o Chá Revelação da Baby Contar — 12 de julho de 2026.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-  <div class="page">
-    <audio id="background-audio" preload="auto" autoplay loop playsinline>
-      <source src="./assets/theme-song.mp3" type="audio/mpeg">
-    </audio>
+  <!-- ================= ÁUDIO ================= -->
+  <audio id="background-audio" preload="auto" autoplay loop playsinline>
+    <source src="./assets/samos126.mp3" type="audio/mpeg">
+  </audio>
 
-    <!-- Audio Control -->
-    <button class="audio-control" id="audio-control" type="button" aria-pressed="false" aria-label="Tocar música" data-state="paused">
-      <span class="audio-icon" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="currentColor">
-          <path id="audio-icon-path" d="m8 5 11 7-11 7z" />
-        </svg>
-      </span>
-      <span class="audio-label">
-        <strong id="audio-title">Música</strong>
-        <span id="audio-subtitle">Sweet Child O' Mine</span>
-      </span>
-    </button>
+  <button class="audio-control" id="audio-control" type="button" aria-pressed="false" aria-label="Tocar música" data-state="paused">
+    <span class="audio-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path id="audio-icon-path" d="m8 5 11 7-11 7z" />
+      </svg>
+    </span>
+    <span class="audio-label">
+      <strong id="audio-title">Música</strong>
+      <span id="audio-subtitle">Toque para ouvir</span>
+    </span>
+  </button>
 
-    <!-- Notas musicais mobile — próximas ao player (ocultas no desktop) -->
-    <svg class="deco--note-mobile deco--note-mobile-1" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M9 18V5l12-2v13" stroke="#9f643a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="6" cy="18" r="3" fill="#9f643a"/>
-      <circle cx="18" cy="16" r="3" fill="#9f643a"/>
-    </svg>
-    <svg class="deco--note-mobile deco--note-mobile-2" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M9 18V5l12-2v13" stroke="#9f643a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="6" cy="18" r="3" fill="#9f643a"/>
-      <circle cx="18" cy="16" r="3" fill="#9f643a"/>
-    </svg>
-    <svg class="deco--note-mobile deco--note-mobile-3" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M9 18V5l12-2v13" stroke="#9f643a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="6" cy="18" r="3" fill="#9f643a"/>
-      <circle cx="18" cy="16" r="3" fill="#9f643a"/>
-    </svg>
+  <!-- ================= CANVAS DE FOLHAS ================= -->
+  <canvas class="leaf-canvas" id="leaf-canvas" aria-hidden="true"></canvas>
 
-    <!-- Particle Canvas -->
-    <canvas class="particles-canvas" id="particles-canvas" aria-hidden="true"></canvas>
+  <!-- ================= DEFINIÇÕES SVG (ramos secos desenhados) ================= -->
+  <svg width="0" height="0" class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Raminho de eucalipto seco -->
+      <g id="sprig">
+        <path d="M40 202 C 38 156 45 126 40 84 C 36 52 41 30 40 5" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" opacity="0.85" />
+        <g fill="currentColor">
+          <path d="M40 176 C 23 172 14 159 12 146 C 27 146 38 157 40 176 Z" opacity="0.92" />
+          <path d="M40 154 C 57 150 66 137 68 124 C 53 124 42 135 40 154 Z" opacity="0.78" />
+          <path d="M40 130 C 21 128 11 113 11 101 C 28 103 38 113 40 130 Z" opacity="0.9" />
+          <path d="M40 106 C 59 104 69 90 69 78 C 53 80 42 90 40 106 Z" opacity="0.74" />
+          <path d="M40 82 C 25 80 17 68 17 57 C 30 59 38 69 40 82 Z" opacity="0.88" />
+          <path d="M40 60 C 55 58 63 46 63 35 C 50 37 42 47 40 60 Z" opacity="0.72" />
+          <path d="M40 38 C 29 36 23 26 23 17 C 33 19 39 27 40 38 Z" opacity="0.85" />
+        </g>
+      </g>
 
-    <!-- ── SVG Decoration Layer (fundo, fixo) ── -->
-    <div class="svg-layer" aria-hidden="true">
+      <!-- Pampa / capim dos pampas (boho) -->
+      <g id="pampas">
+        <path d="M30 210 C 30 150 30 80 30 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" opacity="0.7" />
+        <g fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.6">
+          <path d="M30 70 C 18 60 12 50 8 38" />
+          <path d="M30 70 C 42 60 48 50 52 38" />
+          <path d="M30 84 C 17 75 10 66 6 55" />
+          <path d="M30 84 C 43 75 50 66 54 55" />
+          <path d="M30 98 C 18 90 12 82 9 72" />
+          <path d="M30 98 C 42 90 48 82 51 72" />
+          <path d="M30 112 C 19 105 13 98 10 89" />
+          <path d="M30 112 C 41 105 47 98 50 89" />
+          <path d="M30 126 C 20 120 15 114 12 106" />
+          <path d="M30 126 C 40 120 45 114 48 106" />
+          <path d="M30 56 C 20 47 15 39 12 30" />
+          <path d="M30 56 C 40 47 45 39 48 30" />
+          <path d="M30 44 C 23 36 19 29 17 22" />
+          <path d="M30 44 C 37 36 41 29 43 22" />
+          <path d="M30 32 C 26 26 24 20 23 15" />
+          <path d="M30 32 C 34 26 36 20 37 15" />
+        </g>
+      </g>
+    </defs>
+  </svg>
 
-      <!-- Estrelas cintilantes -->
-      <svg class="deco deco--star" style="--x:7%;--y:7%;--size:22px;--dur:3.8s;--delay:0s;--color:#d6b26f;--max-opacity:0.78" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:27%;--y:4%;--size:14px;--dur:4.4s;--delay:0.7s;--color:#b4c9d4;--max-opacity:0.82" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:48%;--y:5%;--size:18px;--dur:5.1s;--delay:1.2s;--color:#d6b26f;--max-opacity:0.72" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:67%;--y:4%;--size:16px;--dur:3.5s;--delay:0.4s;--color:#e9cdb0;--max-opacity:0.84" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:86%;--y:7%;--size:20px;--dur:4.8s;--delay:1.6s;--color:#d6b26f;--max-opacity:0.75" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:13%;--y:46%;--size:13px;--dur:4.2s;--delay:2.1s;--color:#b4c9d4;--max-opacity:0.68" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:74%;--y:37%;--size:17px;--dur:3.9s;--delay:0.9s;--color:#d6b26f;--max-opacity:0.65" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:91%;--y:53%;--size:14px;--dur:5.3s;--delay:1.8s;--color:#cda78e;--max-opacity:0.7" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
-      <svg class="deco deco--star" style="--x:38%;--y:82%;--size:19px;--dur:4.6s;--delay:3s;--color:#d6b26f;--max-opacity:0.62" viewBox="0 0 40 40" fill="currentColor">
-        <path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/>
-      </svg>
+  <!-- ================= RAMOS DECORATIVOS DE FUNDO ================= -->
+  <svg class="scene-branch scene-branch--tl" viewBox="0 0 80 210" aria-hidden="true">
+    <use href="#sprig" />
+  </svg>
+  <svg class="scene-branch scene-branch--br" viewBox="0 0 80 210" aria-hidden="true">
+    <use href="#sprig" />
+  </svg>
+  <svg class="scene-branch scene-branch--pampas-l" viewBox="0 0 60 214" aria-hidden="true">
+    <use href="#pampas" />
+  </svg>
+  <svg class="scene-branch scene-branch--pampas-r" viewBox="0 0 60 214" aria-hidden="true">
+    <use href="#pampas" />
+  </svg>
 
-      <!-- Balões flutuantes -->
-      <svg class="deco deco--balloon" style="--x:1%;--y:10%;--size:64px;--dur:8.5s;--delay:0.3s;--color:#d6b26f;--max-opacity:0.58;--rot-a:-6deg;--rot-b:6deg;--float:-20px" viewBox="0 0 50 82" fill="none">
-        <ellipse cx="25" cy="30" rx="20" ry="25" fill="currentColor" opacity="0.9"/>
-        <path d="M25 55 Q20 65 25 77" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <ellipse cx="18" cy="21" rx="5.5" ry="3.5" fill="white" opacity="0.4" transform="rotate(-25,18,21)"/>
-      </svg>
-      <svg class="deco deco--balloon" style="--x:88%;--y:20%;--size:54px;--dur:9.2s;--delay:1.4s;--color:#b4c9d4;--max-opacity:0.55;--rot-a:-4deg;--rot-b:7deg;--float:-16px" viewBox="0 0 50 82" fill="none">
-        <ellipse cx="25" cy="30" rx="20" ry="25" fill="currentColor" opacity="0.9"/>
-        <path d="M25 55 Q20 65 25 77" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <ellipse cx="18" cy="21" rx="5.5" ry="3.5" fill="white" opacity="0.4" transform="rotate(-25,18,21)"/>
-      </svg>
-      <svg class="deco deco--balloon" style="--x:45%;--y:1%;--size:46px;--dur:7.8s;--delay:2.5s;--color:#e9cdb0;--max-opacity:0.5;--rot-a:-8deg;--rot-b:4deg;--float:-24px" viewBox="0 0 50 82" fill="none">
-        <ellipse cx="25" cy="30" rx="20" ry="25" fill="currentColor" opacity="0.9"/>
-        <path d="M25 55 Q20 65 25 77" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-        <ellipse cx="18" cy="21" rx="5.5" ry="3.5" fill="white" opacity="0.4" transform="rotate(-25,18,21)"/>
-      </svg>
+  <!-- ================= O LIVRO ================= -->
+  <main class="stage">
+    <div class="book-wrap">
+      <div class="book" id="book">
 
-      <!-- Corações subindo -->
-      <svg class="deco deco--heart" style="--x:4%;--y:60%;--size:22px;--dur:6s;--delay:1s;--color:#e0a898;--max-opacity:0.78;--rot:-12deg;--rot-end:8deg;--rise:-100px" viewBox="0 0 32 30" fill="currentColor">
-        <path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/>
-      </svg>
-      <svg class="deco deco--heart" style="--x:89%;--y:70%;--size:18px;--dur:7s;--delay:2.2s;--color:#e0a898;--max-opacity:0.7;--rot:10deg;--rot-end:-8deg;--rise:-85px" viewBox="0 0 32 30" fill="currentColor">
-        <path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/>
-      </svg>
-      <svg class="deco deco--heart" style="--x:10%;--y:80%;--size:15px;--dur:5.5s;--delay:3.5s;--color:#d6b26f;--max-opacity:0.65;--rot:-8deg;--rot-end:14deg;--rise:-75px" viewBox="0 0 32 30" fill="currentColor">
-        <path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/>
-      </svg>
-      <svg class="deco deco--heart" style="--x:84%;--y:43%;--size:16px;--dur:6.5s;--delay:0.5s;--color:#e0a898;--max-opacity:0.62;--rot:5deg;--rot-end:-12deg;--rise:-90px" viewBox="0 0 32 30" fill="currentColor">
-        <path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/>
-      </svg>
-      <svg class="deco deco--heart" style="--x:50%;--y:88%;--size:14px;--dur:5.8s;--delay:4.2s;--color:#e0a898;--max-opacity:0.58;--rot:3deg;--rot-end:-9deg;--rise:-80px" viewBox="0 0 32 30" fill="currentColor">
-        <path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/>
-      </svg>
-
-      <!-- Notas musicais (desktop) -->
-      <svg class="deco deco--note" style="--x:75%;--y:4%;--size:28px;--dur:4.8s;--delay:0.6s;--color:#9f643a;--max-opacity:0.65" viewBox="0 0 24 24" fill="none">
-        <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="6" cy="18" r="3" fill="currentColor"/>
-        <circle cx="18" cy="16" r="3" fill="currentColor"/>
-      </svg>
-      <svg class="deco deco--note" style="--x:81%;--y:13%;--size:20px;--dur:5.5s;--delay:2s;--color:#9f643a;--max-opacity:0.55" viewBox="0 0 24 24" fill="none">
-        <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="6" cy="18" r="3" fill="currentColor"/>
-        <circle cx="18" cy="16" r="3" fill="currentColor"/>
-      </svg>
-      <svg class="deco deco--note" style="--x:69%;--y:12%;--size:16px;--dur:6.2s;--delay:3.4s;--color:#9f643a;--max-opacity:0.48" viewBox="0 0 24 24" fill="none">
-        <path d="M9 18V5l12-2v13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="6" cy="18" r="3" fill="currentColor"/>
-        <circle cx="18" cy="16" r="3" fill="currentColor"/>
-      </svg>
-
-
-      <!-- ── Pássaro SVG (combina com asset de aves) ── -->
-      <svg class="deco deco--bird" style="--x:33%;--y:16%;--size:32px;--dur:6s;--delay:1s;--color:#b4c9d4;--max-opacity:0.55" viewBox="0 0 64 32" fill="none">
-        <path d="M2 16 Q14 4 22 10 Q28 14 32 12 Q36 10 42 4 Q50 -2 62 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        <path d="M18 10 Q22 16 28 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
-        <path d="M36 12 Q40 18 46 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.6"/>
-      </svg>
-      <svg class="deco deco--bird" style="--x:58%;--y:22%;--size:24px;--dur:7.5s;--delay:3s;--color:#9f643a;--max-opacity:0.4" viewBox="0 0 64 32" fill="none">
-        <path d="M2 16 Q14 4 22 10 Q28 14 32 12 Q36 10 42 4 Q50 -2 62 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      </svg>
-      <!-- Pássaro extra esquerda -->
-      <svg class="deco deco--bird" style="--x:5%;--y:28%;--size:22px;--dur:8s;--delay:5s;--color:#d6b26f;--max-opacity:0.42" viewBox="0 0 64 32" fill="none">
-        <path d="M2 16 Q14 4 22 10 Q28 14 32 12 Q36 10 42 4 Q50 -2 62 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      </svg>
-
-      <!-- ── Sol / Raios SVG (combina com asset do sol) ── -->
-      <svg class="deco deco--sun-rays" style="--x:2%;--y:2%;--size:70px;--dur:18s;--delay:0s;--color:#d6b26f;--max-opacity:0.18" viewBox="0 0 80 80" fill="none">
-        <circle cx="40" cy="40" r="14" fill="currentColor" opacity="0.5"/>
-        <line x1="40" y1="4" x2="40" y2="16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="40" y1="64" x2="40" y2="76" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="4" y1="40" x2="16" y2="40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="64" y1="40" x2="76" y2="40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-        <line x1="14" y1="14" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-        <line x1="58" y1="58" x2="66" y2="66" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-        <line x1="66" y1="14" x2="58" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-        <line x1="22" y1="58" x2="14" y2="66" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.7"/>
-      </svg>
-
-    </div>
-    <!-- ── End SVG Layer ── -->
-
-    <!-- Parallax Background Layers -->
-    <div class="parallax-layer sun" data-speed="0.16">
-      <img src="./assets/Recorte 7.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer birds" data-speed="0.22">
-      <img src="./assets/Recorte 8.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer hill-blue" data-speed="-0.09">
-      <img src="./assets/Recorte 6.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer hill-peach-small" data-speed="-0.06">
-      <img src="./assets/Recorte 4.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer hill-peach-large" data-speed="0.04">
-      <img src="./assets/Recorte 5.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer hill-gold" data-speed="-0.14">
-      <img src="./assets/Recorte 3.jpg.png" alt="" aria-hidden="true">
-    </div>
-
-    <div class="parallax-layer flower-caramel" data-speed="0.19">
-      <img src="./assets/Recorte 2.jpg.png" alt="" aria-hidden="true">
-    </div>
-    <div class="parallax-layer flower-blue" data-speed="0.12">
-      <img src="./assets/Recorte 1.jpg.png" alt="" aria-hidden="true">
-    </div>
-
-    <!-- Confetti (populado por JS) -->
-    <div id="confetti-container" aria-hidden="true"></div>
-
-    <main class="content">
-
-      <!-- ── Hero Section ── -->
-      <section class="hero" aria-label="Convite principal">
-        <div class="hero-card">
-          <span class="card-ornament card-ornament--sun" aria-hidden="true">
-            <img src="./assets/Recorte 7.jpg.png" alt="">
-          </span>
-          <span class="card-ornament card-ornament--birds" aria-hidden="true">
-            <img src="./assets/Recorte 8.jpg.png" alt="">
-          </span>
-
-          <!-- SVGs animados dentro do card hero -->
-          <span class="card-svg-deco card-svg-deco--star-tl" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#d6b26f"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--star-tr" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#b4c9d4"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--heart-bl" aria-hidden="true">
-            <svg viewBox="0 0 32 30" fill="#e0a898"><path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--heart-br" aria-hidden="true">
-            <svg viewBox="0 0 32 30" fill="#d6b26f"><path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/></svg>
-          </span>
-
-          <div class="eyebrow">Convite Especial</div>
-          <h1>Chá Revelação</h1>
-          <div class="hero-name">Baby Dutra</div>
-          <p class="lead">
-            Uma tarde doce, leve e cheia de amor para descobrirmos juntos
-            um dos capítulos mais especiais da nossa história.
-          </p>
-          <p class="hero-copy">
-            Sua presença vai deixar esse momento ainda mais inesquecível.
-          </p>
-          <div class="date-box">
-            <strong>16 de Maio</strong>
-            <span>Às 16:30 horas</span>
-            <small>Traje sugerido: branco ou off-white</small>
-            <em>Venha viver essa surpresa com a gente</em>
-          </div>
-
-          <section class="countdown" aria-labelledby="countdown-title">
-            <span class="card-ornament card-ornament--flower-blue" aria-hidden="true">
-              <img src="./assets/Recorte 1.jpg.png" alt="">
-            </span>
-            <!-- Estrelas dentro da contagem -->
-            <span class="card-svg-deco card-svg-deco--star-sm-l" aria-hidden="true">
-              <svg viewBox="0 0 40 40" fill="#d6b26f"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-            </span>
-            <span class="card-svg-deco card-svg-deco--star-sm-r" aria-hidden="true">
-              <svg viewBox="0 0 40 40" fill="#b4c9d4"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-            </span>
-            <div class="countdown-head">
-              <strong id="countdown-title">Contagem Regressiva</strong>
-            </div>
-            <div class="countdown-grid" id="countdown-grid" aria-live="polite">
-              <div class="countdown-item">
-                <span class="countdown-value" data-unit="days">00</span>
-                <span class="countdown-label">Dias</span>
-              </div>
-              <div class="countdown-item">
-                <span class="countdown-value" data-unit="hours">00</span>
-                <span class="countdown-label">Horas</span>
-              </div>
-              <div class="countdown-item">
-                <span class="countdown-value" data-unit="minutes">00</span>
-                <span class="countdown-label">Min</span>
-              </div>
-              <div class="countdown-item">
-                <span class="countdown-value" data-unit="seconds">00</span>
-                <span class="countdown-label">Seg</span>
-              </div>
-            </div>
-            <p class="countdown-message" id="countdown-message">
-              Cada instante nos aproxima desse encontro.
-            </p>
-          </section>
-
-          <div class="dress-notes" aria-label="Exemplos de traje sugerido">
-            <strong>Exemplos de looks</strong>
-            <div class="dress-chips">
-              <span class="dress-chip">Vestido leve branco ou creme</span>
-              <span class="dress-chip">Conjunto em linho ou alfaiataria clara</span>
-              <span class="dress-chip">Camisa clara com calça bege ou areia</span>
-              <span class="dress-chip">Polo off-white com visual neutro</span>
-              <span class="dress-chip">Crianças com tons suaves e neutros</span>
-            </div>
-          </div>
-
-          <div class="theme-song" aria-label="Música tema do convite">
-            <span class="card-ornament card-ornament--birds" aria-hidden="true">
-              <img src="./assets/Recorte 8.jpg.png" alt="">
-            </span>
-            <!-- Notas dentro do bloco de música -->
-            <span class="card-svg-deco card-svg-deco--note-r" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M9 18V5l12-2v13" stroke="#9f643a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                <circle cx="6" cy="18" r="3" fill="#9f643a"/>
-                <circle cx="18" cy="16" r="3" fill="#9f643a"/>
+        <!-- ───── CAPA ───── -->
+        <div class="page page--hard page--cover" data-density="hard">
+          <div class="page__inner cover">
+            <div class="cover__frame">
+              <span class="cover__eyebrow">Com todo carinho, convidamos você</span>
+              <svg class="cover__sprig" viewBox="0 0 80 210" aria-hidden="true">
+                <use href="#sprig" />
               </svg>
-            </span>
-            <span class="theme-song-tag">Música Tema</span>
-            <h2 class="theme-song-title">Sweet Child O' Mine</h2>
-            <p>
-              Dê play no controle da página e ouça a canção que acompanha
-              esse convite desde o primeiro instante.
-            </p>
-            <span class="theme-song-note">Music Travel Love • versão acústica</span>
+              <h1 class="cover__title">Chá<br>Revelação</h1>
+              <div class="cover__rule"><span></span>✿<span></span></div>
+              <p class="cover__name">Baby Contar</p>
+              <p class="cover__date">12 · Julho · 2026</p>
+              <p class="cover__quote">Depois de tantas histórias registradas, chegou a vez de viver a nossa maior delas. 🤎</p>
+            </div>
           </div>
-
-          <div class="scroll-cue">Role para ver os detalhes ↓</div>
         </div>
-      </section>
 
-      <!-- ── Details Section ── -->
-      <section class="details" aria-label="Informações do evento">
-        <div class="details-card anim-target">
-          <span class="card-ornament card-ornament--hill-blue" aria-hidden="true">
-            <img src="./assets/Recorte 6.jpg.png" alt="">
-          </span>
-          <span class="card-ornament card-ornament--rainbow" aria-hidden="true">
-            <img src="./assets/Recorte 9.jpg.png" alt="">
-          </span>
-          <!-- Estrelas nos cantos do card de detalhes -->
-          <span class="card-svg-deco card-svg-deco--star-tl" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#d6b26f"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--star-tr" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#b4c9d4"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <div>
-            <h2 class="section-title">Reserve esse momento para celebrar conosco</h2>
-            <p class="section-copy">
-              Entre sorrisos, carinho e expectativa, vamos descobrir juntos a cor do
-              nosso maior amor. Será uma alegria ter você ao nosso lado nesse dia.
-            </p>
+        <!-- ───── PÁGINA 1 · O Convite ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">O Convite</span>
+            <svg class="page__corner page__corner--tr" viewBox="0 0 80 210" aria-hidden="true">
+              <use href="#sprig" />
+            </svg>
+            <div class="page__body center">
+              <p class="script-lead">Era uma vez<br>um amor que cresceu…</p>
+              <p class="prose">
+                E agora chegou a hora mais doce: descobrir, juntos, se é
+                <em>menino</em> ou <em>menina</em>. Será uma tarde de afeto,
+                risadas e surpresa — e a sua presença vai tornar cada
+                instante ainda mais inesquecível.
+              </p>
+              <p class="prose prose--soft">Folheie este livrinho e venha viver essa história com a gente.</p>
+              <div class="flourish" aria-hidden="true">❧</div>
+            </div>
+            <span class="page__folio">um</span>
           </div>
+        </div>
 
-          <div class="info-grid">
-            <article class="info-card" id="localizacao">
-              <span class="card-ornament card-ornament--flower-caramel" aria-hidden="true">
-                <img src="./assets/Recorte 2.jpg.png" alt="">
-              </span>
-              <!-- Estrela decorativa no card de localização -->
-              <span class="card-svg-deco card-svg-deco--star-sm-r" aria-hidden="true">
-                <svg viewBox="0 0 40 40" fill="#d6b26f"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-              </span>
-              <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+        <!-- ───── PÁGINA 2 · Quando ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">Quando</span>
+            <svg class="page__corner page__corner--tl" viewBox="0 0 80 210" aria-hidden="true">
+              <use href="#sprig" />
+            </svg>
+            <div class="page__body center">
+              <div class="when">
+                <div class="when__day">
+                  <span class="when__weekday">Domingo</span>
+                  <strong class="when__num">12</strong>
+                  <span class="when__month">de Julho</span>
+                  <span class="when__year">2026</span>
+                </div>
+                <div class="when__time">
+                  <span>Recepção a partir das</span>
+                  <strong>13h30</strong>
+                </div>
+              </div>
+
+              <div class="countdown" aria-labelledby="countdown-title">
+                <span id="countdown-title" class="countdown__title">Faltam</span>
+                <div class="countdown__grid" id="countdown-grid" aria-live="polite">
+                  <div class="countdown__item"><span class="countdown__value" data-unit="days">00</span><span class="countdown__unit">dias</span></div>
+                  <div class="countdown__item"><span class="countdown__value" data-unit="hours">00</span><span class="countdown__unit">horas</span></div>
+                  <div class="countdown__item"><span class="countdown__value" data-unit="minutes">00</span><span class="countdown__unit">min</span></div>
+                  <div class="countdown__item"><span class="countdown__value" data-unit="seconds">00</span><span class="countdown__unit">seg</span></div>
+                </div>
+                <p class="countdown__msg" id="countdown-message">Cada dia nos aproxima desse encontro.</p>
+              </div>
+            </div>
+            <span class="page__folio">dois</span>
+          </div>
+        </div>
+
+        <!-- ───── PÁGINA 3 · Traje Sugerido ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">Traje Sugerido</span>
+            <svg class="page__corner page__corner--tr" viewBox="0 0 60 214" aria-hidden="true">
+              <use href="#pampas" />
+            </svg>
+            <div class="page__body">
+              <h2 class="page__title">Os Tons da Terra</h2>
+              <p class="prose center">
+                Nossa celebração terá uma paleta acolhedora e elegante.
+                Sinta-se à vontade para vestir estas cores:
+              </p>
+              <ul class="palette" aria-label="Paleta de cores sugerida">
+                <li><span class="swatch" style="--c:#ffffff;--b:#e4d8c5"></span>Branco</li>
+                <li><span class="swatch" style="--c:#f7f2e8;--b:#e4d8c5"></span>Off-white</li>
+                <li><span class="swatch" style="--c:#efe4cf"></span>Creme</li>
+                <li><span class="swatch" style="--c:#d9c4a1"></span>Bege areia</li>
+                <li><span class="swatch" style="--c:#b07d4f"></span>Caramelo</li>
+                <li><span class="swatch" style="--c:#8a5631"></span>Marrom canela</li>
+              </ul>
+            </div>
+            <span class="page__folio">três</span>
+          </div>
+        </div>
+
+        <!-- ───── PÁGINA 4 · Programação ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">Programação</span>
+            <svg class="page__corner page__corner--tl" viewBox="0 0 60 214" aria-hidden="true">
+              <use href="#pampas" />
+            </svg>
+            <div class="page__body">
+              <h2 class="page__title">O Roteiro do Dia</h2>
+              <ol class="schedule">
+                <li class="schedule__item">
+                  <span class="schedule__time">13h30</span>
+                  <span class="schedule__rail"><span class="schedule__dot"></span></span>
+                  <span class="schedule__card">
+                    <span class="schedule__icon" aria-hidden="true">🤍</span>
+                    <span class="schedule__text">Recepção dos convidados</span>
+                  </span>
+                </li>
+                <li class="schedule__item">
+                  <span class="schedule__time">14h00</span>
+                  <span class="schedule__rail"><span class="schedule__dot"></span></span>
+                  <span class="schedule__card">
+                    <span class="schedule__icon" aria-hidden="true">🍽️</span>
+                    <span class="schedule__text">Almoço</span>
+                  </span>
+                </li>
+                <li class="schedule__item">
+                  <span class="schedule__time">15h00</span>
+                  <span class="schedule__rail"><span class="schedule__dot"></span></span>
+                  <span class="schedule__card">
+                    <span class="schedule__icon" aria-hidden="true">🎈</span>
+                    <span class="schedule__text">Brincadeiras e momentos especiais</span>
+                  </span>
+                </li>
+                <li class="schedule__item schedule__item--reveal">
+                  <span class="schedule__time">16h30</span>
+                  <span class="schedule__rail"><span class="schedule__dot"></span></span>
+                  <span class="schedule__card">
+                    <span class="schedule__text">A Grande Revelação</span>
+                    <span class="schedule__spark" aria-hidden="true">✨</span>
+                  </span>
+                </li>
+              </ol>
+            </div>
+            <span class="page__folio">quatro</span>
+          </div>
+        </div>
+
+        <!-- ───── PÁGINA 5 · Sugestão de Presente ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">Presente</span>
+            <svg class="page__corner page__corner--tr" viewBox="0 0 80 210" aria-hidden="true">
+              <use href="#sprig" />
+            </svg>
+            <div class="page__body center">
+              <div class="gift-mark" aria-hidden="true">💛</div>
+              <h2 class="page__title">Sugestão de Presente</h2>
+              <p class="prose">
+                Sua presença é o mais importante para nós! Se desejar nos
+                presentear, ficaremos muito felizes com
+                <strong>fraldas descartáveis M ou G</strong>.
+              </p>
+              <p class="prose prose--soft">
+                E se quiser demonstrar seu carinho de outra forma, também
+                seremos gratos por qualquer mimo ou lembrancinha para o bebê.
+              </p>
+              <div class="gift-chip">Fraldas M ou G</div>
+            </div>
+            <span class="page__folio">cinco</span>
+          </div>
+        </div>
+
+        <!-- ───── PÁGINA 6 · Localização ───── -->
+        <div class="page" data-density="soft">
+          <div class="page__inner">
+            <span class="page__label">Onde</span>
+            <svg class="page__corner page__corner--tl" viewBox="0 0 80 210" aria-hidden="true">
+              <use href="#sprig" />
+            </svg>
+            <div class="page__body center">
+              <svg class="pin" viewBox="0 0 64 64" fill="none" aria-hidden="true">
                 <path d="M32 57c8-13 18-21 18-31a18 18 0 1 0-36 0c0 10 10 18 18 31Z" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
                 <circle cx="32" cy="26" r="7.5" stroke="currentColor" stroke-width="2.2" />
               </svg>
-              <h3>Localização</h3>
-              <address class="address-block">
-                <b>Villa Borghese</b> - Avenida das Laranjeiras, Chácara 20, s/n<br>
-                Setor Gran Ville, Anápolis - GO<br>
-                CEP 75090-090
-              </address>
-              <div class="meta-note">Acesso rápido na barra inferior</div>
-            </article>
-
-            <article class="info-card" id="confirmacao">
-              <span class="card-ornament card-ornament--flower-blue" aria-hidden="true">
-                <img src="./assets/Recorte 1.jpg.png" alt="">
-              </span>
-              <!-- Coração decorativo no card de confirmação -->
-              <span class="card-svg-deco card-svg-deco--heart-bl" aria-hidden="true">
-                <svg viewBox="0 0 32 30" fill="#e0a898"><path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/></svg>
-              </span>
-              <svg class="icon" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-                <circle cx="32" cy="32" r="23" stroke="currentColor" stroke-width="2.2" />
-                <path d="m21 32 8 8 15-16" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" />
-                <path d="M32 12a20 20 0 0 1 18 11" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-              </svg>
-              <h3>Confirme sua presença</h3>
-              <p>
-                Se puder, confirme sua presença pelo WhatsApp.
-                Vai ser muito especial compartilhar esse instante com você.
+              <h2 class="page__title">Localização</h2>
+              <p class="prose">
+                Toque no botão abaixo para abrir o mapa e traçar a melhor
+                rota até a nossa celebração.
               </p>
-              <div class="meta-note">Confirmação rápida na barra inferior</div>
-            </article>
+              <a class="btn btn--map" href="https://maps.app.goo.gl/aUC2mP5PifosvUSx9?g_st=iw" target="_blank" rel="noreferrer">
+                Abrir no Google Maps
+              </a>
+              <a class="btn btn--wa" href="https://wa.me/5562995092452?text=Quero%20confirmar%20minha%20presen%C3%A7a%20no%20Ch%C3%A1%20Revela%C3%A7%C3%A3o%20da%20Baby%20Contar." target="_blank" rel="noreferrer">
+                Confirmar presença
+              </a>
+            </div>
+            <span class="page__folio">seis</span>
           </div>
         </div>
-      </section>
 
-      <!-- ── Gift Section ── -->
-      <section class="gift" aria-label="Sugestão de presente">
-        <div class="gift-card anim-target">
-          <span class="card-ornament card-ornament--hill-gold" aria-hidden="true">
-            <img src="./assets/Recorte 3.jpg.png" alt="">
-          </span>
-          <span class="card-ornament card-ornament--hill-peach" aria-hidden="true">
-            <img src="./assets/Recorte 4.jpg.png" alt="">
-          </span>
-          <!-- SVGs decorativos dentro do card de presente -->
-          <span class="card-svg-deco card-svg-deco--star-tl" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#d6b26f"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--heart-br" aria-hidden="true">
-            <svg viewBox="0 0 32 30" fill="#e0a898"><path d="M16 27C11 22.5 2 17 2 10A7.5 7.5 0 0 1 16 4.5A7.5 7.5 0 0 1 30 10C30 17 21 22.5 16 27Z"/></svg>
-          </span>
-          <span class="card-svg-deco card-svg-deco--star-tr" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="#b4c9d4"><path d="M20 2L22 18L38 20L22 22L20 38L18 22L2 20L18 18Z"/></svg>
-          </span>
-          <div class="eyebrow">Carinho em Forma de Presente</div>
-          <h2 class="section-title">Sugestão de Presente</h2>
-          <p>
-            Se desejar nos presentear, fraldas e itens neutros serão muito bem-vindos
-            para preparar a chegada da nossa doce criança.
-          </p>
-          <div class="gift-highlight">Fraldas e itens neutros</div>
+        <!-- ───── CONTRACAPA ───── -->
+        <div class="page page--hard page--back" data-density="hard">
+          <div class="page__inner cover cover--back">
+            <div class="cover__frame">
+              <svg class="cover__sprig" viewBox="0 0 60 214" aria-hidden="true">
+                <use href="#pampas" />
+              </svg>
+              <p class="cover__closing">Com amor,<br>à espera da<br>Baby Contar</p>
+              <div class="cover__rule"><span></span>♡<span></span></div>
+              <span class="cover__tag">Até lá 💛</span>
+            </div>
+          </div>
         </div>
-      </section>
 
-      <div class="footer-note">Com amor, à espera da Baby Dutra</div>
-    </main>
+      </div><!-- /.book -->
 
-    <!-- ── Bottom Navigation ── -->
-    <nav class="quick-actions" aria-label="Ações rápidas">
-      <a class="quick-action" href="https://maps.app.goo.gl/rUk5yJ7kiYtWQqL17" target="_blank" rel="noreferrer">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 21c4-5.5 7-8.9 7-12a7 7 0 1 0-14 0c0 3.1 3 6.5 7 12Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.8" />
-        </svg>
-        <span>Localização</span>
-      </a>
-      <a class="quick-action is-primary" href="https://wa.me/5562998181131?text=Quero%20confirmar%20minha%20presen%C3%A7a%20no%20ch%C3%A1%20do%20Baby%20Dutra." target="_blank" rel="noreferrer">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M7 12.5 10.3 16 17 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8" />
-        </svg>
-        <span>Confirmar presença</span>
-      </a>
-    </nav>
-  </div>
+      <!-- ───── Navegação ───── -->
+      <div class="book-nav">
+        <button class="book-nav__btn" id="prev" type="button" aria-label="Página anterior">‹</button>
+        <span class="book-nav__indicator" id="page-indicator">Capa</span>
+        <button class="book-nav__btn" id="next" type="button" aria-label="Próxima página">›</button>
+      </div>
+      <p class="hint" id="hint">Arraste o canto ou toque nas setas para folhear ↟</p>
+    </div>
+  </main>
 
-  <!-- JS Libraries -->
+  <!-- ================= BIBLIOTECAS JS ================= -->
+  <script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="script.js"></script>
 </body>
 
