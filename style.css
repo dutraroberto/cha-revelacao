@@ -4,7 +4,7 @@
    style.css
    =================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Pinyon+Script&family=Marcellus&display=swap");
+/* Fontes carregadas via <link> no <head> para não bloquear a renderização. */
 
 /* ===========================
    VARIÁVEIS
@@ -65,12 +65,16 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background-image: url("./assets/Aquarela.png");
   background-size: cover;
   background-position: center;
   opacity: 0.1;
   mix-blend-mode: overlay;
   z-index: 0;
+}
+
+/* A textura (imagem pesada) só é solicitada depois que o convite abre. */
+body.tex-ready::before {
+  background-image: url("./assets/Aquarela.png");
 }
 
 /* ===========================

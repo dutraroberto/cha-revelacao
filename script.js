@@ -1,5 +1,5 @@
 /* ===================================================
-   Baby Contar · Chá Revelação 2026
+   Chá Revelação do Rael ou Helena
    Convite em formato de LIVRO
    script.js
    =================================================== */
@@ -35,7 +35,20 @@
     audioIconPath.setAttribute("d", playing ? ICON_PAUSE : ICON_PLAY);
   };
 
-  const tryAutoplay = async () => {
+  // O MP3 é pesado: só baixamos quando o usuário decide ouvir.
+  let audioReady = false;
+  const ensureAudioSrc = () => {
+    if (audioReady) return;
+    audioReady = true;
+    const src = audio.dataset.src;
+    if (src && !audio.src) {
+      audio.preload = "auto";
+      audio.src = src; // inicia o download apenas agora
+    }
+  };
+
+  const playAudio = async () => {
+    ensureAudioSrc();
     try {
       await audio.play();
       setAudioState(true);
@@ -46,12 +59,7 @@
 
   audioControl.addEventListener("click", async () => {
     if (audio.paused) {
-      try {
-        await audio.play();
-        setAudioState(true);
-      } catch (_) {
-        setAudioState(false);
-      }
+      await playAudio();
     } else {
       audio.pause();
       setAudioState(false);
@@ -64,8 +72,8 @@
   const firstInteraction = (e) => {
     if (e.target instanceof Element && e.target.closest("#audio-control"))
       return;
-    if (!audio.paused) return;
-    tryAutoplay();
+    if (audioReady && !audio.paused) return;
+    playAudio();
   };
   document.addEventListener("pointerdown", firstInteraction, {
     passive: true,
@@ -74,7 +82,6 @@
   document.addEventListener("keydown", firstInteraction, { once: true });
 
   setAudioState(false);
-  tryAutoplay();
 
   /* ─────────────────────────────────
      CONTAGEM REGRESSIVA → 12/07/2026 13h30
@@ -205,8 +212,21 @@
     if (hint) setTimeout(() => hint.classList.add("is-hidden"), 8000);
   };
 
-  if (document.readyState === "complete") initBook();
-  else window.addEventListener("load", initBook);
+  // Inicializa assim que o DOM está pronto — NÃO esperamos imagens/áudio
+  // pesados (o que antes travava a abertura do convite em conexões lentas).
+  if (document.readyState !== "loading") initBook();
+  else document.addEventListener("DOMContentLoaded", initBook);
+
+  /* ─────────────────────────────────
+     TEXTURA DE FUNDO (8,5 MB) — carregada por último, fora do caminho
+     crítico, para não atrasar a abertura do convite.
+  ───────────────────────────────── */
+  const loadTexture = () => document.body.classList.add("tex-ready");
+  if ("requestIdleCallback" in window) {
+    requestIdleCallback(loadTexture, { timeout: 4000 });
+  } else {
+    setTimeout(loadTexture, 2500);
+  }
 
   /* ─────────────────────────────────
      FOLHAS FLUTUANTES (canvas)
